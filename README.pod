@@ -1,0 +1,7 @@
+=encoding utf8
+
+=pod
+
+=head2 vim 擼管神器~~~
+
+=cut

@@ -1,0 +1,19 @@
+"hg6681
+
+loadplugins '\.(js|penta)$'
+group user
+set autocomplete=
+set complete=history,location,file
+set defsearch=bing
+
+map <C-g> <ESC>
+imap <C-f> <right>
+imap <C-b> <left>
+imap <A-f> <C-right>
+imap <A-b> <C-left>
+
+cmap <C-f> <right>
+cmap <C-b> <left>
+cmap <A-f> <C-right>
+cmap <A-b> <C-left>
+" vim: set ft=pentadactyl:

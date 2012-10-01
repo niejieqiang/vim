@@ -1,0 +1,44 @@
+!_TAG_FILE_FORMAT	2	/extended format/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted/
+!_TAG_PROGRAM_AUTHOR	Michael Schaap	/mscha@mscha.com/
+!_TAG_PROGRAM_NAME	pltags	//
+!_TAG_PROGRAM_VERSION	2.21	/supports multiple tags and extended format/
+check_dup	chinese_support.pl	/^my %check_dup;$/;"	v	file:
+content	chinese_support.pl	/^my %content = ($/;"	v	file:
+copyright	add_copyright.pl	/^my $copyright = "# AUTHOR : niejieqiang\\n# CREATED: ";$/;"	v	file:
+ctime	add_copyright.pl	/^    my $ctime    = ( stat $$file )[10];$/;"	v	file:
+ctime	add_copyright.pl	/^    my $ctime = &get_ctime( \\$file );$/;"	v	file:
+date	add_copyright.pl	/^    my @date     = localtime $ctime;$/;"	v	file:
+del_name	prune_empty.pl	/^		my $del_name=(split\/\\s+\/,$item)[1];$/;"	v	file:
+depth	add_copyright.pl	/^    my $depth = $_ =~ tr\/\\\/\/\/;$/;"	v	file:
+depth	add_copyright.pl	/^    my $depth = $_ =~ tr\/\\\/\/\/;$/;"	v	file:
+dupfiles	del_baks.pl	/^    my @dupfiles = sort { -C $b <=> -C $a } @{ $same{$orig_name} };$/;"	v	file:
+email	prune_empty.pl	/^my $email="niejieqiang\\@qq.com";$/;"	v	file:
+error	add_copyright.pl	/^my $error="need 3 args: [dir] [min_depth] [max_depth]\\n" ;$/;"	v	file:
+file	add_copyright.pl	/^	my $file=shift ;$/;"	v	file:
+font	setup.pl	/^    my $font      = "fonts\/Courier\\ New.ttf";$/;"	v	file:
+fonts_dir	setup.pl	/^    my $fonts_dir = "~\/.fonts\/";$/;"	v	file:
+formater	add_copyright.pl	/^    my $formater = "%u-%02u-%02u %02u:%02u:%02u\\n";$/;"	v	file:
+get_ctime	add_copyright.pl	/^sub get_ctime {$/;"	s	file:
+git_vi	chinese_support.pl	/^my $git_vi=qq{C:\\\\PROGRA~1\\\\Git\\\\bin\\\\vim};$/;"	v	file:
+gitconfig	chinese_support.pl	/^my @gitconfig = <<GIT_CONFIG;$/;"	v	file:
+gvim_path	chinese_support.pl	/^my $gvim_path = qq{C:\\\\\\\\PROGRA~1\\\\\\\\Vim\\\\\\\\vim73\\\\\\\\gvim.exe };$/;"	v	file:
+hash	add_copyright.pl	/^my %hash;$/;"	v	file:
+inputrc	chinese_support.pl	/^my @inputrc = <<INPUTRC;$/;"	v	file:
+insert	chinese_support.pl	/^my @insert =<<GIT_COMPLETE ;$/;"	v	file:
+max_depth	add_copyright.pl	/^my ( $min_depth, $max_depth ) = ( $ARGV[1],$ARGV[3] );$/;"	v	file:
+min_depth	add_copyright.pl	/^my ( $min_depth, $max_depth ) = ( $ARGV[1],$ARGV[3] );$/;"	v	file:
+pl_files	add_copyright.pl	/^my @pl_files;$/;"	v	file:
+prefix	del_baks.pl	/^    my $prefix = ( split \/_\\d{4}_\/, $file )[0];$/;"	v	file:
+preprocess	add_copyright.pl	/^sub preprocess {$/;"	s	file:
+profile	chinese_support.pl	/^my @profile = <<PROFILE ;$/;"	v	file:
+remote_name	del_all_commits.pl	/^my $remote_name="vim";$/;"	v	file:
+remote_name	prune_empty.pl	/^my $remote_name="vim";$/;"	v	file:
+same	del_baks.pl	/^my %same;$/;"	v	file:
+set	add_copyright.pl	/^my %set = ($/;"	v	file:
+text	add_copyright.pl	/^my $text="";$/;"	v	file:
+text	chinese_support.pl	/^my $text="";$/;"	v	file:
+to_modified	chinese_support.pl	/^my $to_modified =$ENV{'PROGRAMFILES'} . "\\\\Git\\\\etc\\\\git-completion.bash"; $/;"	v	file:
+username	del_all_commits.pl	/^my $username="niejieqiang";$/;"	v	file:
+username	prune_empty.pl	/^my $username = "niejieqiang";$/;"	v	file:
+wanted	add_copyright.pl	/^sub wanted {$/;"	s	file:
