@@ -4,4 +4,11 @@
 
 =head2 vim 擼管神器~~~
 
+=begin html
+
+<hr> <img src="http://pic.yupoo.com/niejieqiang/Cj8Kyv2V/VeeUs.png">
+<p> This is a raw HTML paragraph </p>
+
+=end html
+
 =cut
