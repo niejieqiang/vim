@@ -3,11 +3,14 @@
 # CREATED: 2012-04-10 07:31:43
 use strict;
 use File::Path;
-use File::Copy;
+use File::Copy qw(copy);
 
 my $remote_name="vim";
 my $email="niejieqiang\@qq.com";
 my $username = "niejieqiang";
+my $vimrc = "../.vimrc" ;
+
+copy $vimrc,"./" if -e _;
 
 system("git config --global user.name '$username'");
 system("git config --global user.email '$email'");
