@@ -6,37 +6,34 @@ use strict;
 my $vim_rgb = "C:\\PROGRA~1\\Vim\\vim73\\rgb.txt";
 
 #my $darkerdesert = "darkerdesert.vim";
-
+my $vim_colors="C:\\PROGRA~1\\Vim\\vimfiles\\bundle\\darkerdesert\\colors\\*" ;
 my $hex_color;
 my ( $red, $green, $blue, $en_color );
+my %h;
 
-my %hex_descript;
-
-open FH, "<", $vim_rgb;
-while (<FH>) {
+open $fh, "<", $vim_rgb;
+while (<$fh>) {
     chomp;
     next if /\!/;
     ( $red, $green, $blue, $en_color ) = split( /(?<=\w)\s+(?=\w)/, $_, 4 );
     $hex_color = sprintf( "#%02lx%02lx%02lx", $red, $green, $blue );
-    $hex_descript{$en_color} = $hex_color;
+    $h{$en_color} = $hex_color;
 }
-close FH;
+close $fh;
 
-for my $colorfile ( glob "C:\\PROGRA~1\\Vim\\vimfiles\\bundle\\darkerdesert\\colors\\*" )
-{
+for my $colorfile ( glob $vim_colors) {
     my $text = "";
-    open HEX, "<", $colorfile;
-    while (<HEX>) {
-        for my $key ( keys %hex_descript ) {
-            s/\=\K$key(?=\s+gui|\z)/$hex_descript{$key}/g;
+    open my $fh2, "<", $colorfile;
+    while (<$fh2>) {
+        for my $key ( keys %h ) {
+            s/(?<=\=)$key(?=\s+gui|\z)/$h{$key}/g;
         }
         $text .= $_;
     }
-    close HEX;
+    close $fh2;
 
-    open HEX, ">", $colorfile;
-    print HEX $text;
-    close HEX;
-	$text="";
+    open $fh2, ">", $colorfile;
+    print $fh2 $text;
+    close $fh2;
 }
 

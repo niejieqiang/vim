@@ -1,4 +1,6 @@
 #!perl -w
+# AUTHOR : niejieqiang
+# CREATED: 2012-09-30 20:33:09
 use strict;
 use utf8;
 #del baks while the number of bak files more than 15

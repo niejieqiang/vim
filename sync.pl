@@ -1,4 +1,6 @@
 #!perl -w
+# AUTHOR : niejieqiang
+# CREATED: 2012-10-06 21:03:08
 use strict;
 use File::Find;
 use File::Copy qw(copy);
