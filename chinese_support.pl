@@ -3,7 +3,7 @@
 # CREATED: 2012-05-07 21:01:22
 use strict;
 use utf8;
-use File::Spec::Functions ;
+use File::Spec::Functions;
 
 my @gitconfig = <<GIT_CONFIG;
 #.gitconfig
@@ -30,51 +30,51 @@ export LESSCHARSET=iso8859
 PROFILE
 
 my %c = (
-	".gitconfig"=>\@gitconfig,
-	".inputrc"=>\@inputrc,
-	".profile"=>\@profile,
+    ".gitconfig" => \@gitconfig,
+    ".inputrc"   => \@inputrc,
+    ".profile"   => \@profile,
 );
 
 # 生成.gitconfig .inputrc .profile到C:\\DOCUME~1\\nie
-for  (keys %c) {
-	my $path = catfile($ENV{HOME},$_);
+for ( keys %c ) {
+    my $path = catfile( $ENV{HOME}, $_ );
     open my $fh, ">", $path;
-	print $fh @{$c{$_}};
-	close $fh;
+    print $fh @{ $c{$_} };
+    close $fh;
 }
- 
+
 # 修改/etc/git-complete.bash
 
-my @data =(
-"#git-completion.bash",
-"#ls displays chinese",
-"alias ls='ls --show-control-chars --color=auto' "
+my @data = (
+    "#git-completion.bash",
+    "#ls displays chinese",
+    "alias ls='ls --show-control-chars --color=auto' "
 );
 
-my $file =catfile($ENV{PROGRAMFILES},"Git","etc","git-completion.bash"); 
+my $file = catfile( $ENV{PROGRAMFILES}, "Git", "etc", "git-completion.bash" );
 
 open my $fh, "<", $file;
-my %dup= map{chomp;$_=>1}<$fh>;
+my %dup = map { chomp; $_ => 1 } <$fh>;
 close $fh;
 
-open my $fh2,">>",$file;	
-for (@data){
-	print $fh2 $_."\n" if not exists $dup{$_} ;
+open my $fh2, ">>", $file;
+for (@data) {
+    print $fh2 $_ . "\n" if not exists $dup{$_};
 }
 close $fh2;
- 
+
 #修改git bash中的vim编辑器
-my $gvim = catfile($ENV{PROGRAMFILES},"Vim","vim73","gvim.exe");
-my $git_vi=catfile($ENV{PROGRAMFILES},"Git","bin","vim");
-open my $fh3,"<",$git_vi;
-my $text="";
+my $gvim   = catfile( $ENV{PROGRAMFILES}, "Vim", "vim73", "gvim.exe" );
+my $git_vi = catfile( $ENV{PROGRAMFILES}, "Git", "bin",   "vim" );
+open my $fh3, "<", $git_vi;
+my $text = "";
 while (<$fh3>) {
-	s/(?<=exec ).*?(?= "\$\@)/$gvim/ ;
-	$text.=$_;
+    s/(?<=exec ).*?(?= "\$\@)/$gvim/;
+    $text .= $_;
 }
 close $fh3;
 
-open $fh3,">",$git_vi;	
+open $fh3, ">", $git_vi;
 print $fh3 $text;
 close $fh3;
 
