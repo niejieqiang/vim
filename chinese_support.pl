@@ -3,7 +3,7 @@
 # CREATED: 2012-05-07 21:01:22
 use strict;
 use utf8;
-use open ":encoding(gbk)", ":std";
+use File::Spec::Functions ;
 
 my @gitconfig = <<GIT_CONFIG;
 #.gitconfig
@@ -29,49 +29,52 @@ my @profile = <<PROFILE ;
 export LESSCHARSET=iso8859
 PROFILE
 
-my %content = (
-	"\\.gitconfig"=>\@gitconfig,
-	"\\.inputrc"=>\@inputrc,
-	"\\.profile"=>\@profile,
+my %c = (
+	".gitconfig"=>\@gitconfig,
+	".inputrc"=>\@inputrc,
+	".profile"=>\@profile,
 );
 
 # 生成.gitconfig .inputrc .profile到C:\\DOCUME~1\\nie
-for my $cfg (keys %content) {
-    open my $fh, ">", $ENV{'HOMEPATH'}.$cfg;
-	print $fh @{$content{$cfg}};
+for  (keys %c) {
+	my $path = catfile($ENV{HOME},$_);
+    open my $fh, ">", $path;
+	print $fh @{$c{$_}};
+	close $fh;
 }
-#close $fh;
-
+ 
 # 修改/etc/git-complete.bash
-my @insert =<<GIT_COMPLETE ;
-#git-completion.bash
-#ls displays chinese
-alias ls='ls --show-control-chars --color=auto' 
-GIT_COMPLETE
 
-my $to_modified =$ENV{'PROGRAMFILES'} . "\\Git\\etc\\git-completion.bash"; 
-open my $git_bash, "<", $to_modified;
-my %check_dup= map{$_,1}<$git_bash>;
-close $git_bash;
+my @data =(
+"#git-completion.bash",
+"#ls displays chinese",
+"alias ls='ls --show-control-chars --color=auto' "
+);
 
-open $git_bash, ">>", $to_modified;
-for (@insert) {
-    print $git_bash $_ if !$check_dup{$_};
+my $file =catfile($ENV{PROGRAMFILES},"Git","etc","git-completion.bash"); 
+
+open my $fh, "<", $file;
+my %dup= map{chomp;$_=>1}<$fh>;
+close $fh;
+
+open my $fh2,">>",$file;	
+for (@data){
+	print $fh2 $_."\n" if not exists $dup{$_} ;
 }
-close $git_bash;
-
+close $fh2;
+ 
 #修改git bash中的vim编辑器
-my $gvim_path = qq{C:\\\\PROGRA~1\\\\Vim\\\\vim73\\\\gvim.exe };
-my $git_vi=qq{C:\\PROGRA~1\\Git\\bin\\vim};
-
-open my $vim,"<",$git_vi;
+my $gvim = catfile($ENV{PROGRAMFILES},"Vim","vim73","gvim.exe");
+my $git_vi=catfile($ENV{PROGRAMFILES},"Git","bin","vim");
+open my $fh3,"<",$git_vi;
 my $text="";
-while (<$vim>) {
-	s/exec \K.*(?= "\$\@)/$gvim_path/g if /vi/;
+while (<$fh3>) {
+	s/(?<=exec ).*?(?= "\$\@)/$gvim/ ;
 	$text.=$_;
 }
-close $vim;
+close $fh3;
 
-open $vim,">",$git_vi;
-print $vim $text;
-close $vim;
+open $fh3,">",$git_vi;	
+print $fh3 $text;
+close $fh3;
+

@@ -21,9 +21,9 @@ function! Commenter()
 endfunction
 perl <<EOF
 sub comment_region{
-	my $curbuf = $main::curbuf;
-	my $file_extension = (split/\.|_/,$curbuf->Name())[-1];
-	my %comment=(
+	my $buf = $main::curbuf;
+	my $ft = (split/\.|_/,$buf->Name())[-1];
+	my %sign=(
 		pl=>"\#",
 		pm=>"\#",
 		vimrc=>"\"",
@@ -31,17 +31,17 @@ sub comment_region{
 		htm=>"\/\/",
 		html=>"\/\/",
 	);
-	my ($success, $startline) = VIM::Eval('getpos("\'<")[1]');
-	my ($success, $endline) = VIM::Eval('getpos("\'>")[1]');
+	my ($flag, $start) = VIM::Eval('getpos("\'<")[1]');
+	my ($flag, $end) = VIM::Eval('getpos("\'>")[1]');
 
-	my @text= $curbuf->Get($startline..$endline);
-	for my $item(@text){
-		if (exists $comment{$file_extension}){
-			if($item=~/^((?:(?:\s+))?$comment{$file_extension}+)+/){
-				$item=~s/$1//;
+	my @select= $buf->Get($start..$end);
+	for (@select){
+		if (exists $sign{$ft}){
+			if(/^((?:(?:\s+))?$sign{$ft}+)+/){
+				s/$1//;
 			}
 			else{
-				$item=~s/^/$comment{$file_extension}/g ;
+				s/^/$sign{$ft}/g ;
 			}	
 		}
 		else{
@@ -49,7 +49,7 @@ sub comment_region{
 			last;
 		}
 	}
-	$curbuf->Set($startline, @text);
+	$buf->Set($start, @select);
 }
 EOF
 endif
@@ -65,14 +65,14 @@ endfunction
 perl <<EOF
 sub del_whole_line{
  	my $curwin = $main::curwin;
-    my $curbuf = $main::curbuf;
+    my $buf = $main::curbuf;
 	my ($x,$y)=$curwin->Cursor;
 	if ($y<1){
-		$curbuf->Delete($x);
+		$buf->Delete($x);
 	}
 	else{
-		my $line=substr($curbuf->Get($x),0,$y);
-		$curbuf->Set($x,$line);
+		my $line=substr($buf->Get($x),0,$y);
+		$buf->Set($x,$line);
 	}
 }
 EOF
@@ -88,7 +88,7 @@ endfunction
 perl <<EOF
 sub ls{
 	my $args=VIM::Eval('a:1');
-	my $current_dir=VIM::Eval('getcwd()');
+	my $cur_dir=VIM::Eval('getcwd()');
 	#		VIM::Msg($args);
 	if(-e -d $args){
 		&open_dir(\$args,"");
@@ -97,12 +97,12 @@ sub ls{
 		VIM::Msg($args);
 	}
 	else{
-		&open_dir(\$current_dir,\$args);
+		&open_dir(\$cur_dir,\$args);
 	}
 }
 sub open_dir{
- 	my $dir =shift ;
-	my $pat= shift;
+ 	my $dir = $_[0];
+	my $pat= $_[1];
 		opendir (my $fh,$$dir);
 		for (readdir $fh){
 			VIM::Msg($_) if /$$pat/;
@@ -121,7 +121,7 @@ function! OpenFileExplorer(...)
 endfunction
 perl <<EOF
 sub open_explorer{
-	my $curbuf = $main::curbuf;
+	my $buf = $main::curbuf;
 	my $args = VIM::Eval('a:1');
 	if($args eq ""){
 		my $dir = VIM::Eval('expand("%:p:h")');

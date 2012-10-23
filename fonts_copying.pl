@@ -5,11 +5,10 @@
 # copy fonts  to fonts dir if unix
 use strict;
 use File::Copy qw(copy);
-use File::Path;
 
 if ( $^O =~ /win32/i ) {
-	for my $dll(glob"dlls/*"){
-		copy $dll, $ENV{'VIMRUNTIME'};
+	for (glob"dlls/*"){
+		copy $_, $ENV{VIMRUNTIME};
 	}
 }
 else {

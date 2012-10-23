@@ -1,9 +1,10 @@
 ﻿#!perl -w
+use utf8;
 use strict;
 # Authen::SASL needed
 
-use Net::SMTP;
 use utf8;
+use Net::SMTP;
 
 my $from = "niejieqiang\@qq.com";
 my @to = "niejieqiang\@qq.com";
@@ -23,13 +24,13 @@ my $smtp = Net::SMTP->new(
 
 $smtp->auth($user,$pwd);
 
-for my $mail_to (@to) {
+for (@to) {
 	$smtp->mail($from);
-	$smtp->to($mail_to);
+	$smtp->to($_);
 	$smtp->data;
-	$smtp->datasend("To:$mail_to\n");
-	$smtp->datasend("From:$from\n");
-	$smtp->datasend("Subject: $title\n");
+	$smtp->datasend("To:$_");
+	$smtp->datasend("From:$from");
+	$smtp->datasend("Subject: $title");
 	$smtp->datasend("\n");
 	$smtp->datasend($text);
 	$smtp->datasend("\n");

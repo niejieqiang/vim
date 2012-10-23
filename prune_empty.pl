@@ -20,16 +20,16 @@ system("git commit --amend --reset-author");
 system("git add .");
 
 # del files in repo permanent
-for my $item (`git checkout`) {
-	if ($item=~/^M\s+|^A\s+/) {
-		$item =~ s/^M\s+/git add /g; 
-		$item =~ s/^A\s+/git add /g;
-		system $item;
+for (`git checkout`) {
+	if (/^M\s+|^A\s+/) {
+		 s/^M\s+/git add /g; 
+		 s/^A\s+/git add /g;
+		system $_;
 	}
 	else{
-		$item =~ s/^D\s+/git rm -r /g;
-		system $item;
-		my $del_name=(split/\s+/,$item)[1];
+		s/^D\s+/git rm -r /g;
+		system $_;
+		my $del_name=(split/\s+/)[1];
 		system( "git filter-branch --index-filter 'git rm -r --cached --ignore-unmatch $del_name' --prune-empty --all  HEAD");
 	}
 }

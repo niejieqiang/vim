@@ -4,24 +4,21 @@
 use strict;
 use File::Find;
 
-my $copyright = "# AUTHOR : niejieqiang\n# CREATED: ";
-my $file_regex = qr/\.pl/;
-my $skip_if = qr/^# AUTHOR/;
-
-# sotred file path to %h while find perl files
+# stored file path to %h while find perl files
 my %h;
-find( sub { $h{$File::Find::name} = 1 if /$file_regex/ and -f; }, "." );
+find( sub { $h{$File::Find::name} = 1 if /\.pl/ and -f; }, "." );
 
-# skip if the file has already commented
+# skip if the file has already add copyright
 for ( keys %h ) {
     open my $fh, "<", $_;
     while ( my $line = <$fh> ) {
-        delete $h{$_} if $line =~ /$skip_if/;
+        delete $h{$_} if $line =~ /^# AUTHOR/;
     }
 	close $fh;
 }
 
-# add comments after #! line.
+# add copyright after #! line.
+my $copyright = "# AUTHOR : niejieqiang\n# CREATED: ";
 for my $file ( keys %h ) {
 	my $text      = "";
     open my $fh2, "<", $file;
