@@ -1,15 +1,20 @@
-command! FullPath let @+=expand('%:p')
 "<==================================================
 " Don't waste the PerlInterfaces in VIM
 "<==================================================
 if !exists("s:to_loaded")
-	autocmd VimEnter * call Make_dir()
+	autocmd VimEnter * call MakeDirectory()
 	silent vmap <c-j> <esc>:call Commenter()<cr>
 	command -nargs=* -complete=file OpenFileExplorer call OpenFileExplorer(<q-args>)
-	command -nargs=? -complete=file Ls call Ls(<q-args>)
-	silent imap <c-k> <ESC>:call Del_whole_line()<cr>
-	silent vmap <c-k> <ESC>:call Del_whole_line()<cr>
-	silent nmap <c-k> :call Del_whole_line()<cr>
+	silent imap <c-k> <ESC>:call DelWholeLine()<cr>
+	silent vmap <c-k> <ESC>:call DelWholeLine()<cr>
+	silent nmap <c-k> :call DelWholeLine()<cr>
+	command! FullPath let @+=expand('%:p')
+	autocmd BufWritePre * let &backupext = strftime("_%Y_%m_%d_%H_%M_%S")
+
+	if has("perl")
+		let my_inc = system("perl -e \"print $_,\' \'for @INC\"")
+		perl push @INC,(split/ /,VIM::Eval("my_inc"));
+	endif 
 
 	let s:to_loaded= 1
 	exe 'au FuncUndefined * source ' . expand('<sfile>')
@@ -59,7 +64,7 @@ endif
 " del lines after press C-K like emacs
 "<==================================================
 if has("perl")
-function! Del_whole_line()
+function! DelWholeLine()
 	perl del_whole_line(); 
 endfunction
 perl <<EOF
@@ -78,39 +83,6 @@ sub del_whole_line{
 EOF
 endif
 
-"<==================================================
-" list files 
-"<==================================================
-if has("perl")
-function! Ls(...)
-	perl ls();
-endfunction
-perl <<EOF
-sub ls{
-	my $args=VIM::Eval('a:1');
-	my $cur_dir=VIM::Eval('getcwd()');
-	#		VIM::Msg($args);
-	if(-e -d $args){
-		&open_dir(\$args,"");
-	}
-	elsif(-e -f _ ){
-		VIM::Msg($args);
-	}
-	else{
-		&open_dir(\$cur_dir,\$args);
-	}
-}
-sub open_dir{
- 	my $dir = $_[0];
-	my $pat= $_[1];
-		opendir (my $fh,$$dir);
-		for (readdir $fh){
-			VIM::Msg($_) if /$$pat/;
-		}
-		close $fh;
-}
-EOF
-endif
  
 "<==================================================
 "open in file explorer when in xp
@@ -152,19 +124,23 @@ sub check_sys{
 EOF
 endif
 
+
+
+"<==================================================
+"	auto bakup
+"<==================================================
 if has("perl")
-function! Make_dir()
-	perl make_dir();
+function! MakeDirectory()
+	perl set_bakup();
 endfunction
 perl <<EOF
-sub make_dir{
-	my $bakup=$ENV{'HOME'}."/bakup" ;
-	mkdir $bakup if not -e _;
-	$bakup=~s/ /\\ /g;
+use File::Spec::Functions;
+sub set_bakup{
+	my $bak = catfile($ENV{HOME},"bakup");
+	mkdir $bak if not -e _;
+	$bak=~s/ /\\ /g;
 	VIM::SetOption("backup");
-	VIM::SetOption("backupdir=$bakup");
+	VIM::SetOption("backupdir=$bak");
 }
 EOF
 endif
-autocmd BufWritePre * let &backupext = strftime("_%Y_%m_%d_%H_%M_%S")
-

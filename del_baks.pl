@@ -1,19 +1,28 @@
 #!perl -w
 # AUTHOR : niejieqiang
 # CREATED: 2012-09-30 20:33:09
-use strict;
-use utf8;
-#del baks while the number of bak files more than 15
+#del baks while the number of bak files more than 10
 #use diagnostics;
+use strict;
+use File::Spec;
+use Benchmark qw(timethese);
 
+my $limit = 10;
 my %same;
-for my $file ( grep { -f } glob "$ENV{HOME}\\bakup\\*" ) {
-    my $prefix = ( split /_\d{4}_/, $file )[0];
-    push @{ $same{$prefix} }, $file;
+my $bak_dir= File::Spec->catfile($ENV{HOME},"bakup");
+
+for ( grep { -f } glob $ENV{HOME}."/bakup") {
+	print;
 }
 
-for my $orig_name ( keys %same ) {
-    my @dupfiles = sort { -C $b <=> -C $a } @{ $same{$orig_name} };
-	unlink splice(@dupfiles,15) if @dupfiles >15;
-}
-
+#chdir $bak_dir;
+#for ( grep { -f } glob "*") {
+#    my $prefix = ( split /_\d{4}_/)[0];
+#    push @{ $same{$prefix} }, $_;
+#}
+#
+#for ( keys %same ) {
+#    my @dupfiles = sort { -C $b <=> -C $a } @{ $same{$_} };
+#	unlink splice(@dupfiles,$limit) if @dupfiles >$limit;
+#}
+#

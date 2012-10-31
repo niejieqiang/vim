@@ -6,9 +6,18 @@ use File::Find;
 
 find(
     sub {
-        #		中system("perl -pi -e 's/\r//g' $_") if -f -T;
         if ( -f -T ) {
+            my $txt = "";
+            open my $fh, "<", $_;
+            while (my $line=<$fh>) {
+                $line=~s/\r//g;
+                $txt .= $line;
+            }
+            close $fh;
 
+            open $fh, ">", $_;
+            print $fh $txt;
+            close $fh;
         }
     },
     "."

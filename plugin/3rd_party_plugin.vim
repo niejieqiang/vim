@@ -1,17 +1,17 @@
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
+let g:yankring_default_menu_mode = 0
+let g:yankring_paste_check_default_buffer = 0
+let g:yankring_max_element_length = 2097152
+let g:yankring_clipboard_monitor = 0
+let g:yankring_persist = 0
+let g:yankring_history_file = '_yankring'
+
 "<==================================================
 " MRU plugin
 "<==================================================
 let MRU_Max_Entries = 40
 nmap <cr> :MRU<cr>
-
-"<==================================================
-" Yankring
-"<==================================================
-let g:yankring_replace_n_pkey = '<M-p>'
-let g:yankring_replace_n_nkey = '<M-n>'
-let g:yankring_max_history = 20
-let g:yankring_max_element_length = 20000
-let g:yankring_history_file = '_yankring'
 
 "<==================================================
 " AutoComplPop

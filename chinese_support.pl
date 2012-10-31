@@ -52,6 +52,7 @@ my @data = (
 );
 
 my $file = catfile( $ENV{PROGRAMFILES}, "Git", "etc", "git-completion.bash" );
+print $ENV{GIT}
 
 open my $fh, "<", $file;
 my %dup = map { chomp; $_ => 1 } <$fh>;
@@ -64,7 +65,7 @@ for (@data) {
 close $fh2;
 
 #修改git bash中的vim编辑器
-my $gvim   = catfile( $ENV{PROGRAMFILES}, "Vim", "vim73", "gvim.exe" );
+my $gvim   = catfile( $ENV{VIMRUNTIME}, "gvim.exe" );
 my $git_vi = catfile( $ENV{PROGRAMFILES}, "Git", "bin",   "vim" );
 open my $fh3, "<", $git_vi;
 my $text = "";

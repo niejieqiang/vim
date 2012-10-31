@@ -7,9 +7,10 @@ use strict;
 use File::Copy qw(copy);
 
 if ( $^O =~ /win32/i ) {
-	for (glob"dlls/*"){
-		copy $_, $ENV{VIMRUNTIME};
-	}
+	print $ENV{VIM};
+#	for (glob"dlls/*"){
+#		copy $_, $ENV{VIMRUNTIME};
+#	}
 }
 else {
     my $font      = "fonts/Courier\ New.ttf";

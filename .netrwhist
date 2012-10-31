@@ -1,10 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='d:/draft'
-let g:netrw_dirhist_2='C:/Documents and Settings/nie'
-let g:netrw_dirhist_3='C:/Program Files/Vim'
-let g:netrw_dirhist_4='C:/Program Files/Vim/vimfiles'
-let g:netrw_dirhist_5='C:/Program Files/Vim/vimfiles/plugin'
-let g:netrw_dirhist_6='C:/Program Files/Vim'
-let g:netrw_dirhist_7='C:/Program Files/Vim/vimfiles'
-let g:netrw_dirhist_8='C:/Program Files/Vim/vimfiles/dict'
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='C:/Documents and Settings/nie/bakup'
+let g:netrw_dirhist_2='C:/Documents and Settings/nie/bakup/undo'
+let g:netrw_dirhist_3='D:/draft'
+let g:netrw_dirhist_4='D:\draft'
